@@ -8,6 +8,14 @@ test, and submit changes.
 - [.NET 10 SDK](https://dotnet.microsoft.com/download) (the solution multi-targets
   .NET 8/9/10; the newest SDK builds all targets)
 
+## Working with an agent
+
+The delivery cycle is `.claude/cycle.md` — the same nine steps every repository in the qorpe
+family runs — and `.claude/skills/mediant-change` says what each one means here. The stop
+hook refuses to end a turn on a red build and builds only what changed; with
+`TreatWarningsAsErrors` and `EnforceCodeStyleInBuild` on, that build already is the style and
+analyzer gate. The suites, the .NET 8/9/10 matrix and the Native AOT publish stay in CI.
+
 ## Building and Testing
 
 ```bash
