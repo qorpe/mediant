@@ -5,16 +5,21 @@ on:
     branches: [main]
     paths:
       - "dashboard/**"
+  # Build-only on pull requests: a dependency change that breaks `npm ci` (as the eslint 10 bump
+  # did) must turn the PR red, not the first push to main. Deploy stays main-only below.
+  pull_request:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/dashboard.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('dashboard-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -45,7 +50,11 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
