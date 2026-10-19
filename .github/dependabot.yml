@@ -24,8 +24,6 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "FluentValidation*"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "Microsoft.SourceLink.GitHub"
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
