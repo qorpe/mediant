@@ -42,9 +42,10 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-  <!-- SourceLink: enables stepping into source during debugging -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
+  <!-- SourceLink: enables stepping into source during debugging. Built into the .NET SDK since
+       8.0.100 (it picks the GitHub provider from the git remote), so there is no
+       Microsoft.SourceLink.GitHub PackageReference: the 8.0.0 package pulled in
+       Microsoft.Build.Tasks.Git 8.0.0 (GHSA-23fw-v26w-5fgq, no patched 8.x), which fails restore
+       under NuGetAudit + TreatWarningsAsErrors. -->
 
 </Project>
